@@ -11,6 +11,11 @@
 }
 
 
+.img-thumbnail{
+    cursor: pointer;
+}
+
+
 
 .dot{
     background-color: rgb(163, 156, 156);
