@@ -21,6 +21,9 @@ searchButton.addEventListener('click', () => {
         .catch(err => console.log(err))
 
     searchField.value = '';
+    document.querySelector('.main').style.display = 'none';
+    clearInterval(timer);
+    sliderImages.length = 0;
 })
 
 const displayImages = images => {
@@ -56,6 +59,7 @@ const createSlider = () => {
     }
 
     // Create previous and next 
+    sliderContainer.textContent = '';
     const prevNext = document.createElement('div');
     prevNext.className = 'prev-next d-flex w-100 justify-content-between align-items-center';
     prevNext.innerHTML = `
@@ -63,8 +67,9 @@ const createSlider = () => {
     <span class="next" onclick="changeItem(1)"><i class="fas fa-chevron-right"></i></span>
   `;
     sliderContainer.appendChild(prevNext);
-
-
+    document.querySelector('.main').style.display = 'block';
+    // hide image aria
+    imagesSection.style.display = 'none'
     const duration = document.getElementById('duration').value || 1000;
 
     sliderImages.forEach(slide => {
@@ -78,8 +83,11 @@ const createSlider = () => {
 
     timer = setTimeout(() => {
         slideIndex++;
+        console.log(slideIndex);
     }, duration)
 }
+
+const changeItem = index => changeSlide(slideIndex += index);
 
 const changeSlide = index => {
     const items = document.querySelectorAll('.slider-item');
@@ -87,7 +95,16 @@ const changeSlide = index => {
         slideIndex = items.length - 1;
         index = slideIndex;
     }
+    if (index >= items.length) {
+        index = 0;
+        slideIndex = 0;
+    }
 
+    items.forEach(item => {
+        item.style.display = 'none';
+    })
+
+    items[index].style.display = 'block';
 }
 
 sliderButton.addEventListener('click', () => {
