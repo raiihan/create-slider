@@ -11,6 +11,9 @@ let slideIndex = 0;
 // API KEY
 const KEY = '15674931-a9d714b6e9d654524df198e00&q';
 
+const changeStyle = (element, style) => {
+    element.style.display = style;
+}
 
 searchButton.addEventListener('click', () => {
     const searchField = document.getElementById('search');
@@ -18,7 +21,7 @@ searchButton.addEventListener('click', () => {
     getApi(searchText);
     searchField.value = '';
 
-    imagesSection.style.display = 'block'
+    changeStyle(imagesSection, 'block');
 
     document.querySelector('.main').style.display = 'none';
     clearInterval(timer);
@@ -36,14 +39,13 @@ const getApi = searchText => {
 const displayImages = images => {
     imagesGallery.textContent = '';
     // display the gallery header
-    galleryHeader.style.display = 'flex'
+    changeStyle(galleryHeader, 'flex');
     images.forEach(image => {
         let div = document.createElement('div');
         div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2';
         div.innerHTML = `<img class="img-fluid img-thumbnail" onclick=selectImage(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`
         imagesGallery.appendChild(div);
     })
-    console.log(images);
 }
 
 const selectImage = (event, img) => {
@@ -77,8 +79,12 @@ const createSlider = () => {
     sliderContainer.appendChild(prevNext);
     document.querySelector('.main').style.display = 'block';
     // hide image aria
-    imagesSection.style.display = 'none'
+    changeStyle(imagesSection, 'none');
     const duration = document.getElementById('duration').value || 1000;
+    if (duration < 0) {
+        alert('Please set a positive value');
+        return;
+    }
 
     sliderImages.forEach(slide => {
         let itemImg = document.createElement('div');
@@ -93,7 +99,6 @@ const createSlider = () => {
         slideIndex++;
         changeSlide(slideIndex)
     }, duration)
-    console.log(slideIndex);
 }
 
 const changeItem = index => {
@@ -113,13 +118,14 @@ const changeSlide = index => {
     }
 
     items.forEach(item => {
-        item.style.display = "none"
+        // item.style.display = "none"
+        changeStyle(item, 'none');
     })
 
-    items[index].style.display = "block"
+    // items[index].style.display = "block"
+    changeStyle(items[index], 'block');
 }
 
 sliderButton.addEventListener('click', () => {
     createSlider();
-    console.log('click')
 })
