@@ -7,24 +7,29 @@ const sliderContainer = document.getElementById('sliders');
 
 let sliderImages = [];
 let timer;
+let slideIndex = 0;
 // API KEY
 const KEY = '15674931-a9d714b6e9d654524df198e00&q';
+
 
 searchButton.addEventListener('click', () => {
     const searchField = document.getElementById('search');
     const searchText = searchField.value;
+    getApi(searchText);
+    searchField.value = '';
 
+    document.querySelector('.main').style.display = 'none';
+    clearInterval(timer);
+    sliderImages.length = 0;
+})
+
+const getApi = searchText => {
     // get images by api
     fetch(`https://pixabay.com/api/?key=${KEY}=${searchText}&image_type=photo&pretty=true`)
         .then(res => res.json())
         .then(data => displayImages(data.hits))
         .catch(err => console.log(err))
-
-    searchField.value = '';
-    document.querySelector('.main').style.display = 'none';
-    clearInterval(timer);
-    sliderImages.length = 0;
-})
+}
 
 const displayImages = images => {
     imagesGallery.textContent = '';
@@ -50,7 +55,7 @@ const selectImage = (event, img) => {
     }
 }
 
-let slideIndex = 0;
+
 
 const createSlider = () => {
     if (sliderImages.length < 2) {
@@ -81,30 +86,34 @@ const createSlider = () => {
         sliderContainer.appendChild(itemImg);
     })
     changeSlide(0)
-    timer = setTimeout(() => {
+    timer = setInterval(() => {
         slideIndex++;
         changeSlide(slideIndex)
     }, duration)
+    console.log(slideIndex);
 }
 
-const changeItem = index => changeSlide(slideIndex += index);
+const changeItem = index => {
+    changeSlide(slideIndex += index)
+};
 
 const changeSlide = index => {
     const items = document.querySelectorAll('.slider-item');
     if (index < 0) {
-        slideIndex = items.length - 1;
+        slideIndex = items.length - 1
         index = slideIndex;
-    }
+    };
+
     if (index >= items.length) {
         index = 0;
         slideIndex = 0;
     }
 
     items.forEach(item => {
-        item.style.display = 'none';
+        item.style.display = "none"
     })
 
-    items[index].style.display = 'block';
+    items[index].style.display = "block"
 }
 
 sliderButton.addEventListener('click', () => {
