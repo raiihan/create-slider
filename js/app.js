@@ -6,7 +6,7 @@ const sliderButton = document.getElementById('create-slider');
 const sliderContainer = document.getElementById('sliders');
 
 let sliderImages = [];
-
+let timer;
 // API KEY
 const KEY = '15674931-a9d714b6e9d654524df198e00&q';
 
@@ -51,7 +51,7 @@ const selectImage = (event, img) => {
 }
 
 let slideIndex = 0;
-let timer;
+
 const createSlider = () => {
     if (sliderImages.length < 2) {
         alert('Select atleat 2 Image');
@@ -80,10 +80,10 @@ const createSlider = () => {
         alt="">`;
         sliderContainer.appendChild(itemImg);
     })
-
+    changeSlide(0)
     timer = setTimeout(() => {
         slideIndex++;
-        console.log(slideIndex);
+        changeSlide(slideIndex)
     }, duration)
 }
 
