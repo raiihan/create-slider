@@ -18,6 +18,8 @@ searchButton.addEventListener('click', () => {
     getApi(searchText);
     searchField.value = '';
 
+    imagesSection.style.display = 'block'
+
     document.querySelector('.main').style.display = 'none';
     clearInterval(timer);
     sliderImages.length = 0;
@@ -41,6 +43,7 @@ const displayImages = images => {
         div.innerHTML = `<img class="img-fluid img-thumbnail" onclick=selectImage(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`
         imagesGallery.appendChild(div);
     })
+    console.log(images);
 }
 
 const selectImage = (event, img) => {
